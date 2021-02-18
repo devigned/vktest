@@ -1,0 +1,17 @@
+##template: jinja
+#cloud-config
+
+write_files:
+-   path: /tmp/kubeadm-join-config.yaml
+    owner: root:root
+    permissions: '0640'
+    content: |
+      ---
+      apiVersion: kubeadm.k8s.io/v1beta1
+      kind: JoinConfiguration
+      nodeRegistration:
+        kubeletExtraArgs:
+          cloud-config: /etc/kubernetes/azure.json
+          cloud-provider: azure
+        name: {{ v1.local_hostname }}
+final_message: "The system is finally up, after $UPTIME seconds HELLO"
